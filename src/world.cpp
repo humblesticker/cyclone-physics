@@ -91,3 +91,85 @@ void World::runPhysics(real duration)
     if (calculateIterations) resolver.setIterations(usedContacts * 4);
     resolver.resolveContacts(contacts, usedContacts, duration);
 }
+
+void World::registerBody(RigidBody* body)
+{
+    if (!body) return;
+
+    // Create a new registration
+    BodyRegistration* reg = new BodyRegistration();
+    reg->body = body;
+    reg->next = firstBody;
+    firstBody = reg;
+}
+
+void World::unregisterBody(RigidBody* body)
+{
+    if (!body || !firstBody) return;
+
+    // Special case: removing the first body
+    if (firstBody->body == body)
+    {
+        BodyRegistration* toDelete = firstBody;
+        firstBody = firstBody->next;
+        delete toDelete;
+        return;
+    }
+
+    // Find the body in the list
+    BodyRegistration* prev = firstBody;
+    BodyRegistration* current = firstBody->next;
+
+    while (current)
+    {
+        if (current->body == body)
+        {
+            prev->next = current->next;
+            delete current;
+            return;
+        }
+        prev = current;
+        current = current->next;
+    }
+}
+
+void World::registerContactGenerator(ContactGenerator* generator)
+{
+    if (!generator) return;
+
+    // Create a new registration
+    ContactGenRegistration* reg = new ContactGenRegistration();
+    reg->gen = generator;
+    reg->next = firstContactGen;
+    firstContactGen = reg;
+}
+
+void World::unregisterContactGenerator(ContactGenerator* generator)
+{
+    if (!generator || !firstContactGen) return;
+
+    // Special case: removing the first generator
+    if (firstContactGen->gen == generator)
+    {
+        ContactGenRegistration* toDelete = firstContactGen;
+        firstContactGen = firstContactGen->next;
+        delete toDelete;
+        return;
+    }
+
+    // Find the generator in the list
+    ContactGenRegistration* prev = firstContactGen;
+    ContactGenRegistration* current = firstContactGen->next;
+
+    while (current)
+    {
+        if (current->gen == generator)
+        {
+            prev->next = current->next;
+            delete current;
+            return;
+        }
+        prev = current;
+        current = current->next;
+    }
+}
