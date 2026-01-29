@@ -6,6 +6,7 @@ bin/linux/*
 
 # Test binaries
 bvhtest_standalone
+bvh_integration_example
 
 # Prebuilt OSX Executables
 lib/osx64/*
