@@ -112,6 +112,28 @@ namespace cyclone {
          */
         void startFrame();
 
+        /**
+         * Registers a rigid body with the world. The body will be
+         * integrated each frame and can participate in collision detection.
+         */
+        void registerBody(RigidBody* body);
+
+        /**
+         * Unregisters a rigid body from the world.
+         */
+        void unregisterBody(RigidBody* body);
+
+        /**
+         * Registers a contact generator with the world. The generator
+         * will be called each frame to generate contacts.
+         */
+        void registerContactGenerator(ContactGenerator* generator);
+
+        /**
+         * Unregisters a contact generator from the world.
+         */
+        void unregisterContactGenerator(ContactGenerator* generator);
+
     };
 
 } // namespace cyclone
