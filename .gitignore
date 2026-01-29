@@ -4,6 +4,8 @@ src/*.o
 lib/linux/*
 bin/linux/*
 
+# Test binaries
+bvhtest_standalone
 
 # Prebuilt OSX Executables
 lib/osx64/*
